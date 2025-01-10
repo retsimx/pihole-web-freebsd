@@ -13,26 +13,28 @@ const LISTTYPE_BLACKLIST = 1;
 const LISTTYPE_REGEX_WHITELIST = 2;
 const LISTTYPE_REGEX_BLACKLIST = 3;
 
+require_once __DIR__.'/func.php';
+
 function getGravityDBFilename()
 {
     // Get possible non-standard location of FTL's database
-    $FTLsettings = parse_ini_file('/etc/pihole/pihole-FTL.conf');
-    if (isset($FTLsettings['GRAVITYDB'])) {
+    $FTLsettings = parse_ini_file(getPiholeFilePath('pihole-FTL.conf'));
+    if(isset($FTLsettings['GRAVITYDB'])) {
         return $FTLsettings['GRAVITYDB'];
-    }
-
-    return '/etc/pihole/gravity.db';
+	}
+	
+    return getPiholeFilePath("gravity.db");
 }
 
 function getQueriesDBFilename()
 {
     // Get possible non-standard location of FTL's database
-    $FTLsettings = parse_ini_file('/etc/pihole/pihole-FTL.conf');
-    if (isset($FTLsettings['DBFILE'])) {
-        return $FTLsettings['DBFILE'];
+    $FTLsettings = parse_ini_file(getPiholeFilePath("pihole-FTL.conf"));
+    if(isset($FTLsettings["DBFILE"])) {
+        return $FTLsettings["DBFILE"];
     }
 
-    return '/etc/pihole/pihole-FTL.db';
+    return getPiholeFilePath("pihole-FTL.db");
 }
 
 function SQLite3_connect_try($filename, $mode, $trytoreconnect)

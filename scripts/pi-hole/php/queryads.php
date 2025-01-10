@@ -61,7 +61,7 @@ if (isset($_GET['showall'])) {
     $options .= ' -all';
 }
 
-$proc = popen('sudo pihole -q '.$url.$options, 'r');
+$proc = popen('/usr/local/bin/sudo pihole -q '.$url.$options, 'r');
 while (!feof($proc)) {
     echoEvent(fread($proc, 4096), $url);
 }

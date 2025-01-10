@@ -11,7 +11,7 @@ function checkUpdate($currentVersion, $latestVersion)
     }
 }
 
-$versionsfile = '/etc/pihole/versions';
+$versionsfile = getPiholeFilePath('versions');
 
 if (!is_readable($versionsfile)) {
     $core_branch = 'master';

@@ -107,7 +107,7 @@ function readDNSserversList()
 {
     // Reset list
     $list = array();
-    $handle = @fopen('/etc/pihole/dns-servers.conf', 'r');
+    $handle = @fopen(getPiholeFilePath('dns-servers.conf'), 'r');
     if ($handle) {
         while (($line = fgets($handle)) !== false) {
             $line = rtrim($line);
@@ -425,7 +425,7 @@ if (isset($_POST['field'])) {
             if (isset($_POST['webtheme'])) {
                 global $available_themes;
                 if (array_key_exists($_POST['webtheme'], $available_themes)) {
-                    exec('sudo pihole -a theme '.$_POST['webtheme']);
+                    exec('/usr/local/bin/sudo pihole -a theme '.$_POST['webtheme']);
                 }
             }
             $success .= 'The webUI settings have been updated';

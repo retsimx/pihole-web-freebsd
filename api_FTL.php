@@ -124,7 +124,7 @@ if (isset($_GET['topItems']) && $auth) {
             if (count($tmp) == 2) {
                 $tmp[2] = '';
             }
-            $domain = utf8_encode($tmp[2]);
+            $domain = mb_convert_encoding($tmp[2], 'UTF-8', 'ISO-8859-1');
             $top_queries[$domain] = intval($tmp[1]);
         }
     }
@@ -143,7 +143,7 @@ if (isset($_GET['topItems']) && $auth) {
         $top_ads = array();
         foreach ($return as $line) {
             $tmp = explode(' ', $line);
-            $domain = utf8_encode($tmp[2]);
+            $domain = mb_convert_encoding($tmp[2], 'UTF-8', 'ISO-8859-1');
             if (count($tmp) > 3) {
                 $top_ads[$domain.' ('.$tmp[3].')'] = intval($tmp[1]);
             } else {
@@ -178,9 +178,9 @@ if ((isset($_GET['topClients']) || isset($_GET['getQuerySources'])) && $auth) {
         $top_clients = array();
         foreach ($return as $line) {
             $tmp = explode(' ', $line);
-            $clientip = utf8_encode($tmp[2]);
+            $clientip = mb_convert_encoding($tmp[2], 'UTF-8', 'ISO-8859-1');
             if (count($tmp) > 3 && strlen($tmp[3]) > 0) {
-                $clientname = utf8_encode($tmp[3]);
+                $clientname = mb_convert_encoding($tmp[3], 'UTF-8', 'ISO-8859-1');
                 $top_clients[$clientname.'|'.$clientip] = intval($tmp[1]);
             } else {
                 $top_clients[$clientip] = intval($tmp[1]);
@@ -208,9 +208,9 @@ if (isset($_GET['topClientsBlocked']) && $auth) {
         $top_clients = array();
         foreach ($return as $line) {
             $tmp = explode(' ', $line);
-            $clientip = utf8_encode($tmp[2]);
+            $clientip = mb_convert_encoding($tmp[2], 'UTF-8', 'ISO-8859-1');
             if (count($tmp) > 3 && strlen($tmp[3]) > 0) {
-                $clientname = utf8_encode($tmp[3]);
+                $clientname = mb_convert_encoding($tmp[3], 'UTF-8', 'ISO-8859-1');
                 $top_clients[$clientname.'|'.$clientip] = intval($tmp[1]);
             } else {
                 $top_clients[$clientip] = intval($tmp[1]);
@@ -234,9 +234,9 @@ if (isset($_GET['getForwardDestinations']) && $auth) {
         $forward_dest = array();
         foreach ($return as $line) {
             $tmp = explode(' ', $line);
-            $forwardip = utf8_encode($tmp[2]);
+            $forwardip = mb_convert_encoding($tmp[2], 'UTF-8', 'ISO-8859-1');
             if (count($tmp) > 3 && strlen($tmp[3]) > 0) {
-                $forwardname = utf8_encode($tmp[3]);
+                $forwardname = mb_convert_encoding($tmp[3], 'UTF-8', 'ISO-8859-1');
                 $forward_dest[$forwardname.'|'.$forwardip] = floatval($tmp[1]);
             } else {
                 $forward_dest[$forwardip] = floatval($tmp[1]);
@@ -328,9 +328,9 @@ if (isset($_GET['getAllQueries']) && $auth) {
 
             $row = str_getcsv($line, ' ');
             // UTF-8 encode domain
-            $domain = utf8_encode(str_replace('~', ' ', $row[2]));
+            $domain = mb_convert_encoding(str_replace('~', ' ', $row[2]), 'UTF-8', 'ISO-8859-1');
             // UTF-8 encode client host name
-            $client = utf8_encode($row[3]);
+            $client = mb_convert_encoding($row[3], 'UTF-8', 'ISO-8859-1');
 
             // Insert into array and output it in JSON format
             // array:         time      type     domain  client   status  dnssecStatus    reply    response_time   CNAMEDomain regexID  upstream destination    EDE
@@ -344,7 +344,7 @@ if (isset($_GET['getAllQueries']) && $auth) {
 }
 
 if (isset($_GET['recentBlocked']) && $auth) {
-    exit(utf8_encode(callFTLAPI('recentBlocked')[0]));
+    exit(mb_convert_encoding(callFTLAPI('recentBlocked')[0], 'UTF-8', 'ISO-8859-1'));
     unset($data);
 }
 
@@ -357,9 +357,9 @@ if (isset($_GET['getForwardDestinationNames']) && $auth) {
         $forward_dest = array();
         foreach ($return as $line) {
             $tmp = explode(' ', $line);
-            $forwardip = utf8_encode($tmp[2]);
+            $forwardip = mb_convert_encoding($tmp[2], 'UTF-8', 'ISO-8859-1');
             if (count($tmp) > 3) {
-                $forwardname = utf8_encode($tmp[3]);
+                $forwardname = mb_convert_encoding($tmp[3], 'UTF-8', 'ISO-8859-1');
                 $forward_dest[$forwardname.'|'.$forwardip] = floatval($tmp[1]);
             } else {
                 $forward_dest[$forwardip] = floatval($tmp[1]);
@@ -397,8 +397,8 @@ if (isset($_GET['getClientNames']) && $auth) {
         foreach ($return as $line) {
             $tmp = explode(' ', $line);
             $client_names[] = array(
-                'name' => utf8_encode($tmp[0]),
-                'ip' => utf8_encode($tmp[1]),
+                'name' => mb_convert_encoding($tmp[0], 'UTF-8', 'ISO-8859-1'),
+                'ip' => mb_convert_encoding($tmp[1], 'UTF-8', 'ISO-8859-1'),
             );
         }
 

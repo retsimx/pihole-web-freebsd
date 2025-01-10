@@ -7,15 +7,13 @@
 *    This file is copyright under the latest version of the EUPL.
 *    Please see LICENSE file for your rights under this license.
 */
-
+require_once "scripts/pi-hole/php/func.php";
 require 'scripts/pi-hole/php/header_authenticated.php';
-require 'scripts/pi-hole/php/savesettings.php';
-require_once 'scripts/pi-hole/php/FTL.php';
-
+require "scripts/pi-hole/php/savesettings.php";
+require_once "scripts/pi-hole/php/FTL.php";
 // Reread ini file as things might have been changed
-// DEFAULT_FTLCONFFILE is set in "scripts/pi-hole/php/FTL.php";
-$setupVars = parse_ini_file('/etc/pihole/setupVars.conf');
-$piholeFTLConf = piholeFTLConfig(DEFAULT_FTLCONFFILE, true);
+$setupVars = parse_ini_file(getPiholeFilePath("pihole-FTL.conf"));
+$piholeFTLConf = piholeFTLConfig();
 
 // Handling of PHP internal errors
 $last_error = error_get_last();
@@ -245,8 +243,8 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array('sysadmin', 'dns', 'piho
 $FTLpid = intval(pidofFTL());
 
 if ($FTLpid !== 0) {
-    $FTLversion = exec('/usr/bin/pihole-FTL version');
-    ?>
+    $FTLversion = exec('/usr/local/bin/pihole-FTL version'); 
+?>
                                             <table class="table table-striped table-bordered nowrap">
                                                 <tbody>
                                                     <tr>
@@ -263,7 +261,7 @@ if ($FTLpid !== 0) {
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">User / Group:</th>
-                                                        <td><?php echo get_FTL_data($FTLpid, 'euser').' / '.get_FTL_data($FTLpid, 'egroup'); ?></td>
+                                                        <td><?php echo get_FTL_data($FTLpid, 'user').' / '.get_FTL_data($FTLpid, 'group'); ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">Total CPU utilization:</th>
@@ -583,7 +581,7 @@ $dhcp_leases = array();
 if ($DHCP) {
     // Read leases file
     $leasesfile = true;
-    $dhcpleases = @fopen('/etc/pihole/dhcp.leases', 'r');
+    $dhcpleases = @fopen(getPiholeFilePath('dhcp.leases'), 'r');
     if (!is_resource($dhcpleases)) {
         $leasesfile = false;
     }

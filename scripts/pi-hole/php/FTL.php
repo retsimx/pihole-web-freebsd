@@ -7,12 +7,13 @@
 *  Please see LICENSE file for your rights under this license.
 */
 
-const DEFAULT_FTLCONFFILE = '/etc/pihole/pihole-FTL.conf';
-const DEFAULT_FTL_IP = '127.0.0.1';
+require_once __DIR__.'/func.php';
+
+const DEFAULT_FTLCONFFILE = "/usr/local/etc/pihole/pihole-FTL.conf";
+const DEFAULT_FTL_IP = "127.0.0.1";
 const DEFAULT_FTL_PORT = 4711;
 
-function piholeFTLConfig($piholeFTLConfFile = DEFAULT_FTLCONFFILE, $force = false)
-{
+function piholeFTLConfig($piholeFTLConfFile = DEFAULT_FTLCONFFILE, $force = false) {
     static $piholeFTLConfig;
 
     if (isset($piholeFTLConfig) && !$force) {
@@ -21,8 +22,10 @@ function piholeFTLConfig($piholeFTLConfFile = DEFAULT_FTLCONFFILE, $force = fals
 
     if (is_readable($piholeFTLConfFile)) {
         $piholeFTLConfig = parse_ini_file($piholeFTLConfFile);
+    } else if (is_readable(getPiholeFilePath('pihole-FTL.conf'))) {
+        $piholeFTLConfig = parse_ini_file(getPiholeFilePath('pihole-FTL.conf'));
     } else {
-        $piholeFTLConfig = array();
+        $piholeFTLConfig = array();    
     }
 
     return $piholeFTLConfig;

@@ -781,7 +781,7 @@ function convertUnicodeToIDNA($unicode)
 // Return PID of FTL (used in settings.php)
 function pidofFTL()
 {
-    return shell_exec('/usr/local/bin/pidof pihole-FTL');
+    return shell_exec('/usr/local/bin/sudo /usr/local/bin/pidof pihole-FTL');
 }
 
 // Get FTL process information (used in settings.php)

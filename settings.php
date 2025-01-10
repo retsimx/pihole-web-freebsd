@@ -12,7 +12,7 @@ require 'scripts/pi-hole/php/header_authenticated.php';
 require "scripts/pi-hole/php/savesettings.php";
 require_once "scripts/pi-hole/php/FTL.php";
 // Reread ini file as things might have been changed
-$setupVars = parse_ini_file(getPiholeFilePath("pihole-FTL.conf"));
+$setupVars = parse_ini_file(getPiholeFilePath("setupVars.conf"));
 $piholeFTLConf = piholeFTLConfig();
 
 // Handling of PHP internal errors
@@ -308,7 +308,7 @@ if ($FTLpid !== 0) {
 } else {
     // Show a message if FTL is offline
     ?>
-                                            <div>The FTL service is offline!</div>
+	    				    <div>The FTL service is offline!</div>
 <?php
 }
 ?>
